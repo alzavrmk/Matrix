@@ -1,115 +1,122 @@
 ﻿Console.Write("Ведите размерность квадратной  матрицы ");
 int n = Convert.ToInt16(Console.ReadLine());
 
-// Console.Write("Ведите количество столбцов в матрице ");
-// int n = Convert.ToInt16(Console.ReadLine());
-
 int[,] matrix = new int[n, n];
-// void FillArray(int[,] matr)
-// {
-// int n = matrix.GetLength(1);
-int min = 0;
-int max = n - 1;
-string vector = "rigth";// Направление обхода
-int index = 0;// Числа массива
-int flag = 0;
-int i = 0;
-int j = 0;
+FillArray (matrix);
+PrintArray (matrix);
 
-while (n != 2)
+
+void FillArray(int[,] matrix)
 {
-    if (vector == "rigth")
+    int n = matrix.GetLength(0);
+    int min = 0;
+    int max = n - 1;
+    string vector = "rigth";// Направление обхода
+    int index = 0;// Числа массива
+    int flag = 0;
+    int i = 0;
+    int j = 0;
+
+    while (n != 2)
     {
-        i = min;
-        flag = 0;
-        for (j = min; j <= max; j++)
+        if (vector == "rigth")
         {
-            matrix[i, j] = index++;
-            flag++;
-            //Console.WriteLine($"m[{i}, {j}]={matrix[i, j]}; flag={flag}; vector={vector} min={min}  max={max}");
+            i = min;
+            flag = 0;
+            for (j = min; j <= max; j++)
+            {
+                matrix[i, j] = index++;
+                flag++;
+                //Console.WriteLine($"m[{i}, {j}]={matrix[i, j]}; flag={flag}; vector={vector} min={min}  max={max}");
+            }
+            vector = "down";
         }
-        vector = "down";
-    }
 
-    if (flag == 2) break;
+        if (flag == 2) break;
 
-    if (vector == "down")
-    {
-        j = max;
-        flag = 0;
-
-        for (i = min + 1; i <= max; i++)
+        if (vector == "down")
         {
-            matrix[i, j] = index++;
-            flag++;
-            //Console.WriteLine($"m[{i}, {j}]={matrix[i, j]}; flag={flag}; vector={vector} min={min}  max={max}");
-        }
-        vector = "left";
-    }
+            j = max;
+            flag = 0;
 
-    if (flag == 2) break;
+            for (i = min + 1; i <= max; i++)
+            {
+                matrix[i, j] = index++;
+                flag++;
+                //Console.WriteLine($"m[{i}, {j}]={matrix[i, j]}; flag={flag}; vector={vector} min={min}  max={max}");
+            }
+            vector = "left";
+        }
+
+        if (flag == 2) break;
+
+        if (vector == "left")
+        {
+            i = max;
+            flag = 0;
+            for (j = max - 1; j >= min; j--)
+            {
+                matrix[i, j] = index++;
+                flag++;
+                //Console.WriteLine($"m[{i}, {j}]={matrix[i, j]}; flag={flag}; vector={vector} min={min}  max={max}");
+            }
+            vector = "up";
+        }
+
+        if (flag == 2) break;
+
+        if (vector == "up")
+        {
+            j = min;
+            flag = 0;
+            for (i = max - 1; i >= min + 1; i--)
+            {
+                matrix[i, j] = index++;
+                flag++;
+                //Console.WriteLine($"m[{i}, {j}]={matrix[i, j]}; flag={flag}; vector={vector} min={min}  max={max}");
+            }
+            vector = "rigth";
+            max--;
+            min++;
+        }
+        if (flag == 2) break;
+
+    }
+    //Console.WriteLine($" {i}, {j}, {vector}, {min}, {max}");
 
     if (vector == "left")
     {
         i = max;
-        flag = 0;
         for (j = max - 1; j >= min; j--)
         {
             matrix[i, j] = index++;
-            flag++;
-            //Console.WriteLine($"m[{i}, {j}]={matrix[i, j]}; flag={flag}; vector={vector} min={min}  max={max}");
         }
-        vector = "up";
-    }
-
-    if (flag == 2) break;
-
-    if (vector == "up")
-    {
-        j = min;
-        flag = 0;
-        for (i = max - 1; i >= min + 1; i--)
+        i = max - 1;
+        for (j = min; j <= max - 1; j++)
         {
             matrix[i, j] = index++;
-            flag++;
-            //Console.WriteLine($"m[{i}, {j}]={matrix[i, j]}; flag={flag}; vector={vector} min={min}  max={max}");
         }
-        vector = "rigth";
-        max--;
-        min++;
-    }
-    if (flag == 2) break;
-
-}
-//Console.WriteLine($" {i}, {j}, {vector}, {min}, {max}");
-
-if (vector == "left")
-{
-    i = max;
-    for (j = max - 1; j >= min; j--)
+    } 
+    else
+    if (vector == "rigth")
     {
-        matrix[i, j] = index++;
+        matrix[min, min] = index++;
+        matrix[min, min+1] = index++;
+        matrix[min+1, min+1] = index++;
+        matrix[min+1, min] = index++;
     }
-    i = max - 1;
-    for (j = min; j <= max - 1; j++)
-    {
-        matrix[i, j] = index++;
-    }
-} 
-else
-if (vector == "rigth")
-{
-    matrix[min, min] = index++;
-    matrix[min, min+1] = index++;
-    matrix[min+1, min+1] = index++;
-    matrix[min+1, min] = index++;
 }
-for (i = 0; i < n; i++)// matrix.GetLength(0)-считает количество строк в массиве matrix
+
+void PrintArray(int[,] matrix)
 {
-    for (j = 0; j < n; j++)//matrix.GetLength(1) - считает количество столбцов в массиве matrix
+    for (int i = 0; i < matrix.GetLength(0); i++)// matrix.GetLength(0)-считает количество строк в массиве matrix
+    {
+    for (int j = 0; j < matrix.GetLength(1); j++)//matrix.GetLength(1) - считает количество столбцов в массиве matrix
     {
         Console.Write($"{matrix[i, j].ToString("d3")}  ");
         //onsole.Write($"{matr[i, j].ToString("n2")}  ");
     }
     Console.WriteLine();
+}
+
 }
